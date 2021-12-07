@@ -22,6 +22,11 @@ uses OpenStreetMap for routing to railway and metro station platforms, the data
 available in OpenStreetMap is high quality and can be used as such. At some
 stations, some entrances and paths were updated in OpenStreetMap before the analysis.
 
+:::{.note-box}
+Future Länsimetro specific details are listed in orange boxes, and you may ignore
+the orange boxes if you are only interested in existing stations.
+:::
+
 The process takes place in a few steps:
 
 1) [Finding platform entrances using OpenStreetMap Overpass API](#how-to-find-stations-and-platform-entrances-on-overpass-api)
@@ -252,6 +257,9 @@ isochrones for all the station points. Distance divisions may be set to 10
 to calculate all distances from 200 to 2000 meters at the same time, or 3
 to calculate distances of 5, 10 and 15 minutes.
 
+![Catchment plugin options and extra options](img/catchment_options.png "Catchment plugin options")
+
+Some new features were added to the plugin to make our calculations easier.
 Calculating isochrones for all entrances to each station means we want to combine
 all isochrones for all the entrance points of the same station. This is why we
 saved the station name for each entrance point. Combining all isochrones for
@@ -260,6 +268,21 @@ value in" checkbox, and selecting "HubName". "HubName" is the field QGIS used to
 the name of the station for each entrance. Calculating isochrones for all entrances
 takes a lot longer, because we have anything from 1 to 50 entrances to a single station,
 depending on the station.
+
+:::{.note-box}
+For Länsimetro stations, a new feature was added that takes into account walking
+distance *before* reaching the entrance point. This is because our Länsimetro
+points are not located at the station platforms, they are located at the outdoor
+entrances to the metro station. Länsimetro provided us with a table that allowed
+us to add walking distances in meters to reach each entrance point separately.
+
+To take into account internal walking distances, you may select the "Add indoor
+walking distances" checkbox. This allows you to select an integer field that contains
+the added walking distance at each point in the point layer. Note that this option
+should not be used with more than one distance division, because it will result in
+very ugly distance divisions: the distance is subtracted *before* calculating the
+isochrone for each point.
+:::
 
 ## Results
 
@@ -286,5 +309,5 @@ can be found in Graphhopper source: (https://github.com/graphhopper/graphhopper/
 
 ## License and permissions
 
-These materials are developed for HSY by Gispo Ltd.
+These materials are developed for [HSY](https://www.hsy.fi) by (Gispo Ltd.)[https://www.gispo.fi]
 The materials are licensed under [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/) license.
