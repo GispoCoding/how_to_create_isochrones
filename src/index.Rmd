@@ -111,7 +111,7 @@ service https://overpass-turbo.eu/s/1du9 . The map automatically sets the
 `bbox` variable, so make sure the map is zoomed to the area you want and
 click Run.
 
-!(img/hsy.png "Overpass Turbo")
+![Overpass Turbo](img/hsy.png "Overpass Turbo")
 
 Verify that the results contain all the nodes that you wish to include. At
 the time of the writing, any errors and missing connections to the platforms
@@ -123,7 +123,7 @@ schematics
 (https://www.hsl.fi/matkustaminen/tulostettavat-aikataulut-ja-kartat#asemakartat)
 to the query results.
 
-!(img/kerava.png "Entrances to Kerava platforms")
+![Entrances to Kerava platforms](img/kerava.png "Entrances to Kerava platforms")
 
 OSM editors may always make new errors and remove accidentally some of the
 connections on the stations. Especially stairs and elevators are not always
@@ -155,7 +155,7 @@ done with the QGIS Vector analysis tool "Distance to nearest hub (reference poin
 This will generate a point layer that contains the name of the station
 (and distance of the entrance to the station node):
 
-!(img/distance.png "Getting name of railway station for each entrance point")
+![Getting name of railway station for each entrance point](img/distance.png "Getting name of railway station for each entrance point")
 
 ## How to setup Graphhopper server and QGIS plugin
 
@@ -262,7 +262,7 @@ walked or along narrow paths; and the bike speed is highest if there is a paved
 bike-only lane available. The full code that determines bike speed and route preference
 can be found in Graphhopper source: (https://github.com/graphhopper/graphhopper/blob/b65d9413e2dc29b662a1bb2db146b536471167a9/core/src/main/java/com/graphhopper/routing/util/BikeCommonFlagEncoder.java).
 
-!(pukinmaki.png "5, 10 and 15 minute isochrones by bike to Pukinmäki platform entrances")
+![5, 10 and 15 minute isochrones by bike to Pukinmäki platform entrances](pukinmaki.png "5, 10 and 15 minute isochrones by bike to Pukinmäki platform entrances")
 
 ## License and permissions
 
