@@ -294,7 +294,7 @@ Point 1) means Graphhopper currently divides the area between roads by snapping 
 any road closest to a point, regardless of distance. This may result in very ugly
 isochrones in areas where there are no roads, such as woods and lakes. A suggestion
 to improve Graphhopper isochrones by introducing a buffer around each road is
-in progress (https://github.com/graphhopper/graphhopper/issues/2377).
+[in progress](https://github.com/graphhopper/graphhopper/issues/2377).
 
 Point 2) means Graphhopper has a rather advanced model of estimating bike speeds.
 Our bike profile varies bike speed from 15 km/h (on paved bike lanes) to much less
@@ -303,7 +303,7 @@ Our bike profile varies bike speed from 15 km/h (on paved bike lanes) to much le
 the bike speeds will be slower than in the old model when the bike is
 walked or along narrow paths; and the bike speed is highest if there is a paved
 bike-only lane available. The full code that determines bike speed and route preference
-can be found in Graphhopper source: (https://github.com/graphhopper/graphhopper/blob/b65d9413e2dc29b662a1bb2db146b536471167a9/core/src/main/java/com/graphhopper/routing/util/BikeCommonFlagEncoder.java).
+can be found in [Graphhopper source](https://github.com/graphhopper/graphhopper/blob/b65d9413e2dc29b662a1bb2db146b536471167a9/core/src/main/java/com/graphhopper/routing/util/BikeCommonFlagEncoder.java).
 
 ![5, 10 and 15 minute isochrones by bike to Pukinmäki platform entrances](img/pukinmaki.png "5, 10 and 15 minute isochrones by bike to Pukinmäki platform entrances")
 
