@@ -110,10 +110,12 @@ stations, some entrances and paths were updated in OpenStreetMap before the anal
 </ol>
 <div id="how-to-find-stations-and-platform-entrances-on-overpass-api" class="section level2" number="1.1">
 <h2><span class="header-section-number">1.1</span> How to find stations and platform entrances on Overpass API</h2>
+<p><a href="https://wiki.openstreetmap.org/wiki/Overpass_API">Overpass API</a> is the official API to access OpenStreetMap data,
+and it is queried using the <a href="https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL">Overpass Query Language</a>.</p>
 <p>All the railway platforms in HSY area are in OSM as multipolygons, polygons or
 linestrings. Polygons and linestrings are ways (closed or open) in OpenStreetMap.
 In case of a multipolygon platform (Ilmala, Rautatieasema), it is a relation
-instead. Get nodes that make up the railway platforms:</p>
+instead. Overpass query to get nodes that make up the railway platforms is as follows:</p>
 <pre><code>(
   (
     way[&quot;railway&quot;=&quot;platform&quot;]({{bbox}});
@@ -143,7 +145,7 @@ out geom;
 be removed from the analysis without affecting the results. However, they
 will only slow down the analysis a little, so it makes no sense to go
 through every point and check if it is strictly needed.</p>
-<p>So, the complete query becomes</p>
+<p>So, our complete Overpass query becomes</p>
 <pre><code>(
   (
     way[&quot;railway&quot;=&quot;platform&quot;]({{bbox}});
@@ -170,22 +172,22 @@ out geom;</code></pre>
 <div id="how-to-save-the-results-of-the-query" class="section level2" number="1.2">
 <h2><span class="header-section-number">1.2</span> How to save the results of the query</h2>
 <p>The easiest way to get <em>all</em> nodes in the query is the Overpass Turbo
-service <a href="https://overpass-turbo.eu/s/1du9" class="uri">https://overpass-turbo.eu/s/1du9</a> . The map automatically sets the
-<code>bbox</code> variable, so make sure the map is zoomed to the area you want and
+service <a href="https://overpass-turbo.eu/s/1du9" class="uri">https://overpass-turbo.eu/s/1du9</a> . Zooming the map automatically sets the
+<code>bbox</code> variable for the overpass query, so make sure the map is zoomed to the area you want and
 click Run.</p>
 <div class="figure">
 <img src="img/hsy.png" title="Overpass Turbo" alt="" />
 <p class="caption">Overpass Turbo</p>
 </div>
 <p>Verify that the results contain all the nodes that you wish to include. At
-the time of the writing, any errors and missing connections to the platforms
+the time of the writing, some errors were fixed and missing connections to the platforms
 were added to OSM. Most platform entrances were already correct, thanks to HSL
 editors over the years. Some stations (notably Ilmala, Kerava and Järvenpää)
 required connecting paths to the platforms or creating proper platform polygons.
-The fixes were done by comparing aerial photographs and HSY station platform
-schematics
+The fixes were done by comparing aerial photographs and [HSY station platform
+schematics]
 (<a href="https://www.hsl.fi/matkustaminen/tulostettavat-aikataulut-ja-kartat#asemakartat" class="uri">https://www.hsl.fi/matkustaminen/tulostettavat-aikataulut-ja-kartat#asemakartat</a>)
-to the query results.</p>
+to the overpass query results.</p>
 <div class="figure">
 <img src="img/kerava.png" title="Entrances to Kerava platforms" alt="" />
 <p class="caption">Entrances to Kerava platforms</p>
@@ -193,8 +195,9 @@ to the query results.</p>
 <p>OSM editors may always make new errors and remove accidentally some of the
 connections on the stations. Especially stairs and elevators are not always
 properly connected to the platform edges by OSM editors, and this means they
-may be missing in our results. If there are missing entrances, please fix OSM
-by connecting them to the platform polygons/linestrings before continuing.</p>
+may be missing in future results. If there are missing entrances, please fix
+all the data in OSM by connecting them to the platform polygons/linestrings
+before continuing.</p>
 <p>After the query is finished, the data can be exported by clicking
 on Export. At the time of the writing the number of nodes is 725. Save the
 file as e.g. entrances.geojson, open it in QGIS and verify that all the nodes are present.</p>
@@ -305,7 +308,7 @@ walked or along narrow paths; and the bike speed is highest if there is a paved
 bike-only lane available. The full code that determines bike speed and route preference
 can be found in Graphhopper source: (<a href="https://github.com/graphhopper/graphhopper/blob/b65d9413e2dc29b662a1bb2db146b536471167a9/core/src/main/java/com/graphhopper/routing/util/BikeCommonFlagEncoder.java" class="uri">https://github.com/graphhopper/graphhopper/blob/b65d9413e2dc29b662a1bb2db146b536471167a9/core/src/main/java/com/graphhopper/routing/util/BikeCommonFlagEncoder.java</a>).</p>
 <div class="figure">
-<img src="pukinmaki.png" title="5, 10 and 15 minute isochrones by bike to Pukinmäki platform entrances" alt="" />
+<img src="img/pukinmaki.png" title="5, 10 and 15 minute isochrones by bike to Pukinmäki platform entrances" alt="" />
 <p class="caption">5, 10 and 15 minute isochrones by bike to Pukinmäki platform entrances</p>
 </div>
 </div>
