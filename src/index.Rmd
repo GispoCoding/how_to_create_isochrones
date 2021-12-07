@@ -165,7 +165,7 @@ station plans offer links to detail plans and reference schematics on the planne
 buildings at each future station, so the location of the doors (and levels) at each entrance can
 be approximated. [An example link to the plans around the Soukka station.](https://kartat.espoo.fi/IMS/?layers=Opaskartta&lon=Vireillä%20olevat%20asemakaavat&lon=Ajantasa-asemakaava&cp=6669917,25481609&z=0.25)
 
-![An example of Soukka reference plan](img/soukka.png "An example of Soukka reference plan")
+![An example from Soukka reference plan](img/soukka.png "An example from Soukka reference plan")
 
 In addition, Länsimetro provided a table that contains internal walking distances in
 meters + seconds on escalator/elevator from the metro platform to each of the entrances
@@ -173,6 +173,8 @@ at different levels. These numbers were added individually to each mapped entran
 In some cases, the entrances had to be moved further to connect to the surrounding walking
 network, as they are currently located inside construction sites. This added distance was also added
 to the walking distance to the platform.
+
+![Espoonlahti entrances had to be moved outside the construction site](img/espoonlahti.png "Espoonlahti entrances had to be moved outside the construction site")
 :::
 
 Giving each platform entrance the name of the railway station is easiest
