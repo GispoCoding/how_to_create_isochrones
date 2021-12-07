@@ -176,8 +176,9 @@ This will generate a point layer that contains the name of the station
 
 ## How to setup Graphhopper server and QGIS plugin
 
-[Graphhopper](https://github.com/graphhopper/graphhopper) is most easily installed
-directly on an empty Ubuntu server with Java VM and their own README instructions:
+[Graphhopper](https://github.com/graphhopper/graphhopper) is an open-source routing
+engine that uses OpenStreetMap roads and paths out of the box. It is most easily installed
+directly on an empty Ubuntu server with Java VM and their own [README instructions](https://github.com/graphhopper/graphhopper#installation):
 
 ```
 sudo apt update
@@ -236,9 +237,11 @@ config or want to update the data, you have to delete the `graph-cache` director
 and restart Graphhopper.
 
 The [Catchment QGIS plugin](https://github.com/GispoCoding/school-catchment-plugin)
-needs to be installed from the QGIS Plugins repository. Start up the plugin
+needs to be installed from the [QGIS Plugins repository](https://plugins.qgis.org/plugins/Catchment/). Start up the plugin
 and fill in your Graphhopper URL (e.g. http://52.59.201.37:8989 or wherever your
 installation is) in the Settings tab.
+
+![Catchment plugin settings](img/catchment_settings.png "Catchment plugin settings")
 
 ## How to calculate isochrones
 
