@@ -266,7 +266,7 @@ walked or along narrow paths; and the bike speed is highest if there is a paved
 bike-only lane available. The full code that determines bike speed and route preference
 can be found in Graphhopper source: (https://github.com/graphhopper/graphhopper/blob/b65d9413e2dc29b662a1bb2db146b536471167a9/core/src/main/java/com/graphhopper/routing/util/BikeCommonFlagEncoder.java).
 
-![5, 10 and 15 minute isochrones by bike to Pukinmäki platform entrances](pukinmaki.png "5, 10 and 15 minute isochrones by bike to Pukinmäki platform entrances")
+![5, 10 and 15 minute isochrones by bike to Pukinmäki platform entrances](img/pukinmaki.png "5, 10 and 15 minute isochrones by bike to Pukinmäki platform entrances")
 
 ## License and permissions
 
