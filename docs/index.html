@@ -145,12 +145,10 @@ node(w)-&gt;.walkway_nodes;</code></pre>
 <pre><code>node.platform_nodes.walkway_nodes;
 out geom;
 </code></pre>
-<div class="hint-box">
 <p>On some stations, this will return extra points on the platform edges that could
 be removed from the analysis without affecting the results. However, they
 will only slow down the analysis a little, so it makes no sense to go
 through every point and check if it is strictly needed.</p>
-</div>
 <p>So, our complete Overpass query becomes</p>
 <pre><code>(
   (
@@ -197,14 +195,12 @@ to the overpass query results.</p>
 <img src="img/kerava.png" title="Entrances to Kerava platforms" alt="" />
 <p class="caption">Entrances to Kerava platforms</p>
 </div>
-<div class="hint-box">
 <p>OSM editors may always make new errors and remove accidentally some of the
 connections on the stations. Especially stairs and elevators are not always
 properly connected to the platform edges by OSM editors, and this means they
 may be missing in future results. If there are missing entrances, please fix
 all the data in OSM by connecting them to the platform polygons/linestrings
 before continuing.</p>
-</div>
 <p>After the query is finished, the data can be exported by clicking
 on Export. At the time of the writing the number of nodes is 725. Save the
 file as e.g. entrances.geojson, open it in QGIS and verify that all the nodes are present.</p>
