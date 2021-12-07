@@ -17,8 +17,8 @@ documentclass: book
 # Creating railway station isochrones with QGIS
 
 The goal was to create isodistance curves as well as isochrones when traveling
-by foot and by bike to all railway stations in the Helsinki region. Since HSL
-uses OpenStreetMap for routing to railway and metro station platforms, the data
+by foot and by bike to all railway station and metro station platform levels in the Helsinki
+region. Since HSL uses OpenStreetMap for routing to railway and metro station platforms, the data
 available in OpenStreetMap is high quality and can be used as such. At some
 stations, some entrances and paths were updated in OpenStreetMap before the analysis.
 
