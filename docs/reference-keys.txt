@@ -5,4 +5,3 @@ how-to-setup-graphhopper-server-and-qgis-plugin
 how-to-calculate-isochrones
 results
 license-and-permissions
-training-environment
