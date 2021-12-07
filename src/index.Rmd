@@ -32,10 +32,13 @@ The process takes place in a few steps:
 
 ## How to find stations and platform entrances on Overpass API
 
+[Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API) is the official API to access OpenStreetMap data,
+and it is queried using the [Overpass Query Language](https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL).
+
 All the railway platforms in HSY area are in OSM as multipolygons, polygons or
 linestrings. Polygons and linestrings are ways (closed or open) in OpenStreetMap.
 In case of a multipolygon platform (Ilmala, Rautatieasema), it is a relation
-instead. Get nodes that make up the railway platforms:
+instead. Overpass query to get nodes that make up the railway platforms is as follows:
 
 ```
 (
@@ -78,7 +81,7 @@ be removed from the analysis without affecting the results. However, they
 will only slow down the analysis a little, so it makes no sense to go
 through every point and check if it is strictly needed.
 
-So, the complete query becomes
+So, our complete Overpass query becomes
 ```
 (
   (
@@ -107,29 +110,30 @@ out geom;
 ## How to save the results of the query
 
 The easiest way to get *all* nodes in the query is the Overpass Turbo
-service https://overpass-turbo.eu/s/1du9 . The map automatically sets the
-`bbox` variable, so make sure the map is zoomed to the area you want and
+service https://overpass-turbo.eu/s/1du9 . Zooming the map automatically sets the
+`bbox` variable for the overpass query, so make sure the map is zoomed to the area you want and
 click Run.
 
 ![Overpass Turbo](img/hsy.png "Overpass Turbo")
 
 Verify that the results contain all the nodes that you wish to include. At
-the time of the writing, any errors and missing connections to the platforms
+the time of the writing, some errors were fixed and missing connections to the platforms
 were added to OSM. Most platform entrances were already correct, thanks to HSL
 editors over the years. Some stations (notably Ilmala, Kerava and Järvenpää)
 required connecting paths to the platforms or creating proper platform polygons.
-The fixes were done by comparing aerial photographs and HSY station platform
-schematics
+The fixes were done by comparing aerial photographs and [HSY station platform
+schematics]
 (https://www.hsl.fi/matkustaminen/tulostettavat-aikataulut-ja-kartat#asemakartat)
-to the query results.
+to the overpass query results.
 
 ![Entrances to Kerava platforms](img/kerava.png "Entrances to Kerava platforms")
 
 OSM editors may always make new errors and remove accidentally some of the
 connections on the stations. Especially stairs and elevators are not always
 properly connected to the platform edges by OSM editors, and this means they
-may be missing in our results. If there are missing entrances, please fix OSM
-by connecting them to the platform polygons/linestrings before continuing.
+may be missing in future results. If there are missing entrances, please fix
+all the data in OSM by connecting them to the platform polygons/linestrings
+before continuing.
 
 After the query is finished, the data can be exported by clicking
 on Export. At the time of the writing the number of nodes is 725. Save the
