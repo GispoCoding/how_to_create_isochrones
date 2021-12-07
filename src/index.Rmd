@@ -24,11 +24,11 @@ stations, some entrances and paths were updated in OpenStreetMap before the anal
 
 The process takes place in a few steps:
 
-1) Finding platform entrances using OpenStreetMap Overpass API
-2) Saving entrance and station points and linking them in QGIS
-3) Installing Graphhopper server and QGIS Catchment plugin
-4) Selecting the desired isochrone distances and settings
-5) Admiring your results.
+1) [Finding platform entrances using OpenStreetMap Overpass API](#how-to-find-stations-and-platform-entrances-on-overpass-api)
+2) [Saving entrance and station points and linking them in QGIS](#how-to-save-the-results-of-the-query)
+3) [Installing Graphhopper server and QGIS Catchment plugin](#how-to-setup-graphhopper-server-and-qgis-plugin)
+4) [Selecting the desired isochrone distances and settings](#how-to-calculate-isochrones)
+5) [Admiring your results](#results).
 
 ## How to find stations and platform entrances on Overpass API
 
