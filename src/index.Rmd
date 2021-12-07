@@ -122,8 +122,7 @@ were added to OSM. Most platform entrances were already correct, thanks to HSL
 editors over the years. Some stations (notably Ilmala, Kerava and Järvenpää)
 required connecting paths to the platforms or creating proper platform polygons.
 The fixes were done by comparing aerial photographs and [HSY station platform
-schematics]
-(https://www.hsl.fi/matkustaminen/tulostettavat-aikataulut-ja-kartat#asemakartat)
+schematics](https://www.hsl.fi/matkustaminen/tulostettavat-aikataulut-ja-kartat#asemakartat)
 to the overpass query results.
 
 ![Entrances to Kerava platforms](img/kerava.png "Entrances to Kerava platforms")
@@ -150,9 +149,23 @@ Run this and save the results as e.g. stations.geojson.
 Note that "Pasilan autojuna-asema" should be removed manually from both stations
 and entrances, since it doesn't offer any local traffic.
 
+:::{.note-box}
 Missing future Länsimetro stations were added as points located at the
 underground metro platforms. This is the same way existing metro station
 locations are saved in OpenStreetMap.
+
+Missing future Länsimetro station *entrances* were approximated based on public plans and
+schematics materials offered by Espoo around each of the Länsimetro stations. All
+station plans offer links to detail plans and reference schematics on the planned
+buildings at each future station, so the location of the doors (and levels) at each entrance can
+be approximated. [An example link to the plans around the Soukka station.](https://kartat.espoo.fi/IMS/?layers=Opaskartta&lon=Vireillä%20olevat%20asemakaavat&lon=Ajantasa-asemakaava&cp=6669917,25481609&z=0.25)
+
+![An example of Soukka reference plan](img/soukka.png "An example of Soukka reference plan")
+
+In addition, Länsimetro provided a table that contains internal walking distances in
+meters + seconds on escalator/elevator from the metro platform to each of the entrances
+at different levels. These numbers were added individually to each mapped entrance to take into account later.
+:::
 
 Giving each platform entrance the name of the railway station is easiest
 done with the QGIS Vector analysis tool "Distance to nearest hub (reference points)".
