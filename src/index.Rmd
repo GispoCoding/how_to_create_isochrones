@@ -1,9 +1,9 @@
 ---
-title: "Introduction to QGIS"
+title: "How to create isochrones with QGIS"
 author: "Gispo Ltd."
 date: "`r Sys.Date()`"
 site: "bookdown::bookdown_site"
-abstract: "A course covering advanced GeoServer topics."
+abstract: "Documentation on calculating isochrones for railway stations using OpenStreetMap data"
 output:
     bookdown::html_book:
         toc: true
@@ -14,34 +14,257 @@ output:
 documentclass: book
 ---
 
-# Introduction to QGIS
+# Creating railway station isochrones with QGIS
 
-Welcome to the Introduction to QGIS course by [Gispo Ltd.](https://gispo.fi)!
+The goal was to create isodistance curves as well as isochrones when traveling
+by foot and by bike to all railway stations in the Helsinki region. Since HSL
+uses OpenStreetMap for routing to railway and metro station platforms, the data
+available in OpenStreetMap is high quality and can be used as such. At some
+stations, some entrances and paths were updated in OpenStreetMap before the analysis.
 
-These course materials are designed to be used during the two-day Introduction to QGIS course.
+The process takes place in a few steps:
 
-Todo: add some more materials here
+1) Finding platform entrances using OpenStreetMap Overpass API
+2) Saving entrance and station points and linking them in QGIS
+3) Installing Graphhopper server and QGIS Catchment plugin
+4) Selecting the desired isochrone distances and settings
+5) Admiring your results.
 
-## About
+## How to find stations and platform entrances on Overpass API
 
-When working through the material, try to follow along the exercises as well as you can.
-Even if you cannot complete an exercise, you learn much more by at least trying.
+All the railway platforms in HSY area are in OSM as multipolygons, polygons or
+linestrings. Polygons and linestrings are ways (closed or open) in OpenStreetMap.
+In case of a multipolygon platform (Ilmala, Rautatieasema), it is a relation
+instead. Get nodes that make up the railway platforms:
 
-The materials contain notes and hints that help with completing the exercises.
-These are placed in special boxes.
-Hints look like this:
+```
+(
+  (
+    way["railway"="platform"]({{bbox}});
+	node(w);
+  );
+  (
+    rel["railway"="platform"]({{bbox}});
+    way(r);
+	node(w);
+  );
+)->.platform_nodes;
+```
 
-:::{.hint-box}
-**Hint:** these boxes contain useful tips for completing exercises.
-:::
+Go through all the nodes in the platforms and find attached walkways:
 
-While notes look like this:
+```
+(
+    way["highway"="steps"]({{bbox}})(bn.platform_nodes);
+    way["highway"="elevator"]({{bbox}})(bn.platform_nodes);
+    way["highway"="footway"]({{bbox}})(bn.platform_nodes);
+    way["highway"="pedestrian"]({{bbox}})(bn.platform_nodes);
+    way["highway"="path"]({{bbox}})(bn.platform_nodes);
+    way["foot"]({{bbox}})(bn.platform_nodes);
+);
+node(w)->.walkway_nodes;
+```
 
-:::{.note-box}
-**Note:** these boxes contain various things that should to keep in mind and consider.
-:::
+Find the nodes that are attached to both walkways and platforms:
+
+```
+node.platform_nodes.walkway_nodes;
+out geom;
+
+```
+
+On some stations, this will return extra points on the platform edges that could
+be removed from the analysis without affecting the results. However, they
+will only slow down the analysis a little, so it makes no sense to go
+through every point and check if it is strictly needed.
+
+So, the complete query becomes
+```
+(
+  (
+    way["railway"="platform"]({{bbox}});
+	node(w);
+  );
+  (
+    rel["railway"="platform"]({{bbox}});
+    way(r);
+	node(w);
+  );
+)->.platform_nodes;
+(
+    way["highway"="steps"]({{bbox}})(bn.platform_nodes);
+    way["highway"="elevator"]({{bbox}})(bn.platform_nodes);
+    way["highway"="footway"]({{bbox}})(bn.platform_nodes);
+    way["highway"="pedestrian"]({{bbox}})(bn.platform_nodes);
+    way["highway"="path"]({{bbox}})(bn.platform_nodes);
+    way["foot"]({{bbox}})(bn.platform_nodes);
+);
+node(w)->.walkway_nodes;
+node.platform_nodes.walkway_nodes;
+out geom;
+```
+
+## How to save the results of the query
+
+The easiest way to get *all* nodes in the query is the Overpass Turbo
+service https://overpass-turbo.eu/s/1du9 . The map automatically sets the
+`bbox` variable, so make sure the map is zoomed to the area you want and
+click Run.
+
+!(img/hsy.png "Overpass Turbo")
+
+Verify that the results contain all the nodes that you wish to include. At
+the time of the writing, any errors and missing connections to the platforms
+were added to OSM. Most platform entrances were already correct, thanks to HSL
+editors over the years. Some stations (notably Ilmala, Kerava and Järvenpää)
+required connecting paths to the platforms or creating proper platform polygons.
+The fixes were done by comparing aerial photographs and HSY station platform
+schematics
+(https://www.hsl.fi/matkustaminen/tulostettavat-aikataulut-ja-kartat#asemakartat)
+to the query results.
+
+!(img/kerava.png "Entrances to Kerava platforms")
+
+OSM editors may always make new errors and remove accidentally some of the
+connections on the stations. Especially stairs and elevators are not always
+properly connected to the platform edges by OSM editors, and this means they
+may be missing in our results. If there are missing entrances, please fix OSM
+by connecting them to the platform polygons/linestrings before continuing.
+
+After the query is finished, the data can be exported by clicking
+on Export. At the time of the writing the number of nodes is 725. Save the
+file as e.g. entrances.geojson, open it in QGIS and verify that all the nodes are present.
+
+To group platform entrances by station name, we also want the station points.
+This is done with a simple Overpass query
+```
+node["railway"="station"]({{bbox}});
+out geom;
+```
+Run this and save the results as e.g. stations.geojson.
+
+Note that "Pasilan autojuna-asema" should be removed manually from both stations
+and entrances, since it doesn't offer any local traffic.
+
+Missing future Länsimetro stations were added as points located at the
+underground metro platforms. This is the same way existing metro station
+locations are saved in OpenStreetMap.
+
+Giving each platform entrance the name of the railway station is easiest
+done with the QGIS Vector analysis tool "Distance to nearest hub (reference points)".
+This will generate a point layer that contains the name of the station
+(and distance of the entrance to the station node):
+
+!(img/distance.png "Getting name of railway station for each entrance point")
+
+## How to setup Graphhopper server and QGIS plugin
+
+[Graphhopper](https://github.com/graphhopper/graphhopper) is most easily installed
+directly on an empty Ubuntu server with Java VM and their own README instructions:
+
+```
+sudo apt update
+sudo apt install default-jre
+wget https://graphhopper.com/public/releases/graphhopper-web-4.0.jar https://raw.githubusercontent.com/graphhopper/graphhopper/4.x/config-example.yml
+```
+
+The `config-example.yml` file has to be updated to activate walk and bike routing,
+and to allow access to the server from outside:
+
+```
+profiles:
+    - name: hike
+        vehicle: hike
+        weighting: shortest
+    - name: bike
+        vehicle: bike
+        weighting: custom
+        custom_model: {
+          "speed": [
+            {
+              "if": "true",
+              "limit_to": 15
+            },
+            {
+              "if": "road_class == MOTORWAY",
+              "multiply_by": 0
+            }
+          ]
+        }
+...
+server:
+  application_connectors:
+  - type: http
+    port: 8989
+    # COMMENT OUT THE NEXT LINE!
+    # bind_host: localhost
+```
+
+The hiking profile has speed of 5 km/h on flat ground (3 km/h on stairs). The bike
+profile speed varies from 2 km/h (when pushing the bike on stairs on stations) all
+the way to 15 km/h (when riding the bike on a separate bike lane). If a regular
+(not custom) bike profile is used instead, the maximum speed will be 18 km/h.
+
+Finally, the local OSM extract has to be downloaded and GraphHopper has to be
+started with enough memory for the Java VM:
+
+```
+wget https://download.geofabrik.de/europe/finland-latest.osm.pbf
+java -Xmx12g -Xms12g -Ddw.graphhopper.datareader.file=finland-latest.osm.pbf -jar *.jar server config-example.yml
+```
+
+First startup will be slow. GraphHopper will read the whole Finland extract and
+construct routing graphs for all the modes listed in the config file. If you change
+config or want to update the data, you have to delete the `graph-cache` directory
+and restart Graphhopper.
+
+The [Catchment QGIS plugin](https://github.com/GispoCoding/school-catchment-plugin)
+needs to be installed from the QGIS Plugins repository. Start up the plugin
+and fill in your Graphhopper URL (e.g. http://52.59.201.37:8989 or wherever your
+installation is) in the Settings tab.
+
+## How to calculate isochrones
+
+Then you may calculate the isochrone for any layer in QGIS by selecting
+the layer name, distance in meters or minutes and, if you selected minutes,
+the mode of transport, i.e. Walking or Cycling. This way you can calculate
+isochrones for all the station points. Distance divisions may be set to 10
+to calculate all distances from 200 to 2000 meters at the same time, or 3
+to calculate distances of 5, 10 and 15 minutes.
+
+Calculating isochrones for all entrances to each station means we want to combine
+all isochrones for all the entrance points of the same station. This is why we
+saved the station name for each entrance point. Combining all isochrones for
+entrances to the same station can be done by selecting the "Merge areas with same
+value in" checkbox, and selecting "HubName". "HubName" is the field QGIS used to save
+the name of the station for each entrance. Calculating isochrones for all entrances
+takes a lot longer, because we have anything from 1 to 50 entrances to a single station,
+depending on the station.
+
+## Results
+
+The results look slightly different from the old 2015 isochrones. There are two main
+reasons for this: 1) different method of dividing area between roads and 2) more varied
+speed profile for bicycles.
+
+Point 1) means Graphhopper currently divides the area between roads by snapping to
+any road closest to a point, regardless of distance. This may result in very ugly
+isochrones in areas where there are no roads, such as woods and lakes. A suggestion
+to improve Graphhopper isochrones by introducing a buffer around each road is
+in progress (https://github.com/graphhopper/graphhopper/issues/2377).
+
+Point 2) means Graphhopper has a rather advanced model of estimating bike speeds.
+Our bike profile varies bike speed from 15 km/h (on paved bike lanes) to much less
+(on uneven surfaces and forest paths). The speed when walking the bike
+(e.g. on train platforms) is 4 km/h, and speed on stairs is even lower. This means
+the bike speeds will be slower than in the old model when the bike is
+walked or along narrow paths; and the bike speed is highest if there is a paved
+bike-only lane available. The full code that determines bike speed and route preference
+can be found in Graphhopper source: (https://github.com/graphhopper/graphhopper/blob/b65d9413e2dc29b662a1bb2db146b536471167a9/core/src/main/java/com/graphhopper/routing/util/BikeCommonFlagEncoder.java).
+
+!(pukinmaki.png "5, 10 and 15 minute isochrones by bike to Pukinmäki platform entrances")
 
 ## License and permissions
 
-These materials are developed for the Introduction to QGIS course by Gispo Ltd.
+These materials are developed for HSY by Gispo Ltd.
 The materials are licensed under [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/) license.
