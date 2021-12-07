@@ -312,5 +312,5 @@ can be found in [Graphhopper source](https://github.com/graphhopper/graphhopper/
 
 ## License and permissions
 
-These materials are developed for [HSY](https://www.hsy.fi) by (Gispo Ltd.)[https://www.gispo.fi]
+These materials are developed for [HSY](https://www.hsy.fi) by [Gispo Ltd.](https://www.gispo.fi)
 The materials are licensed under [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/) license.
