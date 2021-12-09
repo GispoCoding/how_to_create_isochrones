@@ -297,9 +297,10 @@ speed profile for bicycles.
 
 Point 1) means Graphhopper currently divides the area between roads by snapping to
 any road closest to a point, regardless of distance. This may result in very ugly
-isochrones in areas where there are no roads, such as woods and lakes. A suggestion
-to improve Graphhopper isochrones by introducing a buffer around each road is
-[in progress](https://github.com/graphhopper/graphhopper/issues/2377).
+isochrones in areas where there are no roads, such as woods and lakes. Graphhopper
+has a number of issues to improve the shape of isochrones by
+[buffering/adding nodes](https://github.com/graphhopper/graphhopper/issues/2377)
+and [removing nodes outside the isochrone](https://github.com/graphhopper/graphhopper/issues/2181).
 
 Point 2) means Graphhopper has a rather advanced model of estimating bike speeds.
 Our bike profile varies bike speed from 15 km/h (on paved bike lanes) to much less
