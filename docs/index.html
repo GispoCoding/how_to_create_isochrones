@@ -16,7 +16,7 @@
 
 <meta name="author" content="Gispo Ltd." />
 
-<meta name="date" content="2021-12-07" />
+<meta name="date" content="2021-12-09" />
 
 
 <meta name="description" content="How to create isochrones with QGIS">
@@ -88,7 +88,7 @@ type="button" onclick="navToggle()" aria-label="Toggle navigation">
 
 <h4 class="author">Gispo Ltd.</h4>
 
-<h4 id="build-date">Version: 2021-12-07</h4>
+<h4 id="build-date">Version: 2021-12-09</h4>
 
 <div class="abstract"><p>Documentation on calculating isochrones for railway stations using OpenStreetMap data</p></div>
 
@@ -343,9 +343,10 @@ reasons for this: 1) different method of dividing area between roads and 2) more
 speed profile for bicycles.</p>
 <p>Point 1) means Graphhopper currently divides the area between roads by snapping to
 any road closest to a point, regardless of distance. This may result in very ugly
-isochrones in areas where there are no roads, such as woods and lakes. A suggestion
-to improve Graphhopper isochrones by introducing a buffer around each road is
-<a href="https://github.com/graphhopper/graphhopper/issues/2377">in progress</a>.</p>
+isochrones in areas where there are no roads, such as woods and lakes. Graphhopper
+has a number of issues to improve the shape of isochrones by
+<a href="https://github.com/graphhopper/graphhopper/issues/2377">buffering/adding nodes</a>
+and <a href="https://github.com/graphhopper/graphhopper/issues/2181">removing nodes outside the isochrone</a>.</p>
 <p>Point 2) means Graphhopper has a rather advanced model of estimating bike speeds.
 Our bike profile varies bike speed from 15 km/h (on paved bike lanes) to much less
 (on uneven surfaces and forest paths). The speed when walking the bike
@@ -362,7 +363,8 @@ can be found in <a href="https://github.com/graphhopper/graphhopper/blob/b65d941
 <div id="license-and-permissions" class="section level2" number="1.6">
 <h2><span class="header-section-number">1.6</span> License and permissions</h2>
 <p>These materials are developed for <a href="https://www.hsy.fi">HSY</a> by <a href="https://www.gispo.fi">Gispo Ltd.</a>
-The materials are licensed under <a href="https://creativecommons.org/licenses/by-nd/4.0/">CC BY-ND 4.0</a> license.</p>
+The materials are licensed under <a href="https://creativecommons.org/licenses/by-nd/4.0/">CC BY-ND 4.0</a>
+license.</p>
 
 </div>
 </div>
@@ -377,7 +379,7 @@ The materials are licensed under <a href="https://creativecommons.org/licenses/b
 
 <div class="footer-info">
 <h5 class="footer-title">How to create isochrones with QGIS</h5>
-<span class="footer-version">v2021-12-07</span>
+<span class="footer-version">v2021-12-09</span>
 <div class="license"><img src="img/by-nd.svg" width="80px" alt="CC-BY-ND"></div>
 </div>
 
