@@ -299,8 +299,10 @@ Point 1) means Graphhopper currently divides the area between roads by snapping 
 any road closest to a point, regardless of distance. This may result in very ugly
 isochrones in areas where there are no roads, such as woods and lakes. Graphhopper
 has a number of issues to improve the shape of isochrones by
-[buffering/adding nodes](https://github.com/graphhopper/graphhopper/issues/2377)
-and [removing nodes outside the isochrone](https://github.com/graphhopper/graphhopper/issues/2181).
+[buffering/adding nodes](https://github.com/graphhopper/graphhopper/issues/2377),
+[removing nodes outside the isochrone](https://github.com/graphhopper/graphhopper/issues/2181)
+and [adjusting snapping distance for isodistance curves](https://github.com/graphhopper/graphhopper/issues/2488). The latter issue can be addressed in GraphHopper source code by adjusting [this row](https://github.com/graphhopper/graphhopper/blob/9bf683c41d97d919b96d7bf118561584fd440564/web-bundle/src/main/java/com/graphhopper/resources/IsochroneResource.java#L119)
+to a value such as 200 or 500 to get less pointed triangles in isodistance curves.
 
 Point 2) means Graphhopper has a rather advanced model of estimating bike speeds.
 Our bike profile varies bike speed from 15 km/h (on paved bike lanes) to much less
