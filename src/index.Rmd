@@ -338,7 +338,7 @@ clipping them with any other polygon layers of your choice.
 
 Here, airport areas and sea and lake masks were obtained from [National Land Survey
 Topographic Database](https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/product-descriptions/topographic-database)
-using a QGIS plugin such as (NLS Geopackage Downloader)[https://plugins.qgis.org/plugins/NLSgpkgloader-master/]
+using a QGIS plugin such as [NLS Geopackage Downloader](https://plugins.qgis.org/plugins/NLSgpkgloader-master/)
 and used to clip away clearly unaccessible areas. The same method may be used for any
 other area types that you consider "unaccessible"; GraphHopper itself knows
 nothing of areas outside the paths.
