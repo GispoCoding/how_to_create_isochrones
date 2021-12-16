@@ -329,6 +329,21 @@ has a number of issues to improve the shape of isochrones by
 and [adjusting snapping distance for isodistance curves](https://github.com/graphhopper/graphhopper/issues/2488). The latter issue can be addressed in GraphHopper source code by adjusting [this row](https://github.com/graphhopper/graphhopper/blob/9bf683c41d97d919b96d7bf118561584fd440564/web-bundle/src/main/java/com/graphhopper/resources/IsochroneResource.java#L119)
 to a value such as 200 or 500 to get less pointed triangles in isodistance curves.
 
+:::{.note-box}
+If you are unhappy with isochrones and isodistance curves encroaching into non-accessible
+areas (water bodies, airports and the like), this is an artefact of the fact that
+points are mapped to *closest* walkable node if there is no road network in the area.
+In this case, you may improve the look of isochrones on non-accessible areas by
+clipping them with any other polygon layers of your choice.
+
+Here, airport areas and sea and lake masks were obtained from [National Land Survey
+Topographic Database](https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/product-descriptions/topographic-database)
+using a QGIS plugin such as (NLS Geopackage Downloader)[https://plugins.qgis.org/plugins/NLSgpkgloader-master/]
+and used to clip away clearly unaccessible areas. The same method may be used for any
+other area types that you consider "unaccessible"; GraphHopper itself knows
+nothing of areas outside the paths.
+:::
+
 Point 2) means Graphhopper has a rather advanced model of estimating bike speeds.
 Our bike profile varies bike speed from 15 km/h (on paved bike lanes) to much less
 (on uneven surfaces and forest paths). The speed when walking the bike
