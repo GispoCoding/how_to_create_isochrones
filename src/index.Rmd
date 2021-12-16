@@ -175,10 +175,10 @@ be approximated. [An example link to the plans around the Soukka station.](https
 
 In addition, Länsimetro provided a table that contains internal walking distances in
 meters + seconds on escalator/elevator from the metro platform to each of the entrances
-at different levels. These numbers were added individually to each mapped entrance to take into account later.
-In some cases, the entrances had to be moved further to connect to the surrounding walking
-network, as they are currently located inside construction sites. This added distance was also added
-to the walking distance to the platform.
+at different levels. These numbers were added individually to each mapped entrance to take
+into account later. In some cases, the entrances had to be moved further to connect to the
+surrounding walking network, as they are currently located inside construction sites. This
+added distance was also added to the walking distance to the platform.
 
 ![Espoonlahti entrances had to be moved outside the construction site](img/espoonlahti.png "Espoonlahti entrances had to be moved outside the construction site")
 :::
