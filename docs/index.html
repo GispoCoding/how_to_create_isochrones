@@ -373,7 +373,7 @@ has a number of issues to improve the shape of isochrones by
 <a href="https://github.com/graphhopper/graphhopper/issues/2181">removing nodes outside the isochrone</a>
 and <a href="https://github.com/graphhopper/graphhopper/issues/2488">adjusting snapping distance for isodistance curves</a>. The latter issue can be addressed in GraphHopper source code by adjusting <a href="https://github.com/graphhopper/graphhopper/blob/9bf683c41d97d919b96d7bf118561584fd440564/web-bundle/src/main/java/com/graphhopper/resources/IsochroneResource.java#L119">this row</a>
 to a value such as 200 or 500 to get less pointed triangles in isodistance curves.</p>
-<div class="note-box">
+<div class="hint-box">
 <p>If you are unhappy with isochrones and isodistance curves encroaching into non-accessible
 areas (water bodies, airports and the like), this is an artefact of the fact that
 points are mapped to <em>closest</em> walkable node if there is no road network in the area.
