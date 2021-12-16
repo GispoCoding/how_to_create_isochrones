@@ -28,7 +28,7 @@ the orange boxes if you are only interested in existing stations.
 :::
 
 :::{.hint-box}
-Notable problems or caveats are listed in purple boxes.
+Possible problems or caveats in OSM data are listed in purple boxes.
 :::
 
 The process takes place in a few steps:
@@ -195,14 +195,16 @@ Another problem in OSM data is that sometimes, areas *around* a station entrance
 with a walkable polygon, with the station doors only connecting to a walkable polygon but
 no paths. GraphHopper, as its name suggests, uses a graph algorithm, and is unable to do
 any routing through a polygon; it requires paths. Especially some underground stations
-(Itäkeskus, Puotila, Kamppi, Kivistö) were surrounded by a walkable polygon with no paths
-on the ground around the entrance building. This problem might be detected *after*
-doing the routing and inspecting the resulting isochrones.
+(Itäkeskus, Puotila, Kamppi, Kivistö) were surrounded above the ground by a walkable polygon
+with no paths from the entrance building. This problem might be detected *after*
+doing the routing and finding missing areas in the resulting isochrones.
 
 In these cases, paths had to be added to connect the entrance buildings across the
 pedestrian areas to paths outside the pedestrian area. A notable example is Itäkeskus
-bus terminal and Tallinnanaukio, which required adding all the walkable paths to both
-the shopping mall entrances and the neighboring paths.
+bus terminal and Tallinnanaukio, which required adding lots of walkable paths to connect
+station entrances to the shopping mall entrances and all neighboring paths. Smaller fixes
+were made to a large amount of pedestrian squares around many stations, considering people
+walking from the direction of the station.
 
 ![Paths had to be added all across Itäkeskus Tallinnanaukio and bus terminal](img/itakeskus.png "Paths had to be added all across Itäkeskus Tallinnanaukio and bus terminal")
 :::
