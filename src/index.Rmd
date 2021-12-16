@@ -27,6 +27,10 @@ Future Länsimetro specific details are listed in orange boxes, and you may igno
 the orange boxes if you are only interested in existing stations.
 :::
 
+:::{.hint-box}
+Notable problems or caveats are listed in purple boxes.
+:::
+
 The process takes place in a few steps:
 
 1) [Finding platform entrances using OpenStreetMap Overpass API](#how-to-find-stations-and-platform-entrances-on-overpass-api)
@@ -121,6 +125,9 @@ click Run.
 
 ![Overpass Turbo](img/hsy.png "Overpass Turbo")
 
+![Entrances to Kerava platforms](img/kerava.png "Entrances to Kerava platforms")
+
+:::{.hint-box}
 Verify that the results contain all the nodes that you wish to include. At
 the time of the writing, some errors were fixed and missing connections to the platforms
 were added to OSM. Most platform entrances were already correct, thanks to HSL
@@ -130,14 +137,13 @@ The fixes were done by comparing aerial photographs and [HSY station platform
 schematics](https://www.hsl.fi/matkustaminen/tulostettavat-aikataulut-ja-kartat#asemakartat)
 to the overpass query results.
 
-![Entrances to Kerava platforms](img/kerava.png "Entrances to Kerava platforms")
-
 OSM editors may always make new errors and remove accidentally some of the
 connections on the stations. Especially stairs and elevators are not always
 properly connected to the platform edges by OSM editors, and this means they
 may be missing in future results. If there are missing entrances, please fix
 all the data in OSM by connecting them to the platform polygons/linestrings
 before continuing.
+:::
 
 After the query is finished, the data can be exported by clicking
 on Export. At the time of the writing the number of nodes is 725. Save the
@@ -183,6 +189,23 @@ This will generate a point layer that contains the name of the station
 (and distance of the entrance to the station node):
 
 ![Getting name of railway station for each entrance point](img/distance.png "Getting name of railway station for each entrance point")
+
+:::{.hint-box}
+Another problem in OSM data is that sometimes, areas *around* a station entrance may be marked
+with a walkable polygon, with the station doors only connecting to a walkable polygon but
+no paths. GraphHopper, as its name suggests, uses a graph algorithm, and is unable to do
+any routing through a polygon; it requires paths. Especially some underground stations
+(Itäkeskus, Puotila, Kamppi, Kivistö) were surrounded by a walkable polygon with no paths
+on the ground around the entrance building. This problem might be detected *after*
+doing the routing and inspecting the resulting isochrones.
+
+In these cases, paths had to be added to connect the entrance buildings across the
+pedestrian areas to paths outside the pedestrian area. A notable example is Itäkeskus
+bus terminal and Tallinnanaukio, which required adding all the walkable paths to both
+the shopping mall entrances and the neighboring paths.
+
+![Paths had to be added all across Itäkeskus Tallinnanaukio and bus terminal](img/itakeskus.png "Paths had to be added all across Itäkeskus Tallinnanaukio and bus terminal")
+:::
 
 ## How to setup Graphhopper server and QGIS plugin
 
@@ -291,9 +314,9 @@ isochrone for each point.
 
 ## Results
 
-The results look slightly different from the old 2015 isochrones. There are two main
-reasons for this: 1) different method of dividing area between roads and 2) more varied
-speed profile for bicycles.
+The results look slightly different from the old 2015 isochrones. There are multiple
+reasons for this: 1) different method of dividing area between roads, 2) more varied
+speed profile for bicycles, 3) more platform entrances and 4) more paths.
 
 Point 1) means Graphhopper currently divides the area between roads by snapping to
 any road closest to a point, regardless of distance. This may result in very ugly
@@ -312,6 +335,19 @@ the bike speeds will be slower than in the old model when the bike is
 walked or along narrow paths; and the bike speed is highest if there is a paved
 bike-only lane available. The full code that determines bike speed and route preference
 can be found in [Graphhopper source](https://github.com/graphhopper/graphhopper/blob/b65d9413e2dc29b662a1bb2db146b536471167a9/core/src/main/java/com/graphhopper/routing/util/BikeCommonFlagEncoder.java).
+
+Point 3) means that all paths, elevators, stairs etc. leading to the platforms are
+included in OSM data, and the points considered are always at the entrance of the
+platform, not in the middle of the platform. This means there might be more paths
+available to the platform than in the old data.
+
+Finally, point 4) means that in many cases, OpenStreetMap has a very comprehensive
+path network mapped by locals, including paths and routes not found in the old
+datasets. In some cases, such paths may be steep and narrow, and the bike routing
+takes this into account accordingly by using walking speed on such paths. The only
+caveat here is the case detailed earlier, where a pedestrian area is only mapped as
+a polygon in OpenStreetMap. In these cases, paths had to be added to get proper
+routing across such areas.
 
 ![5, 10 and 15 minute isochrones by bike to Pukinmäki platform entrances](img/pukinmaki.png "5, 10 and 15 minute isochrones by bike to Pukinmäki platform entrances")
 
