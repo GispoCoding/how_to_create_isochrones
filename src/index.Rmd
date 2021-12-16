@@ -125,8 +125,6 @@ click Run.
 
 ![Overpass Turbo](img/hsy.png "Overpass Turbo")
 
-![Entrances to Kerava platforms](img/kerava.png "Entrances to Kerava platforms")
-
 :::{.hint-box}
 Verify that the results contain all the nodes that you wish to include. At
 the time of the writing, some errors were fixed and missing connections to the platforms
@@ -148,6 +146,8 @@ before continuing.
 After the query is finished, the data can be exported by clicking
 on Export. At the time of the writing the number of nodes is 725. Save the
 file as e.g. entrances.geojson, open it in QGIS and verify that all the nodes are present.
+
+![Entrances to Kerava platforms](img/kerava.png "Entrances to Kerava platforms")
 
 To group platform entrances by station name, we also want the station points.
 This is done with a simple Overpass query
